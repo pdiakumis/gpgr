@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gpgr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,7 @@
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Developers</h1>
             
-            <h4 data-toc-skip class="date">2022-02-05</h4>
+            <h4 data-toc-skip class="date">2022-02-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/umccr/gpgr/blob/HEAD/vignettes/devnotes.Rmd" class="external-link"><code>vignettes/devnotes.Rmd</code></a></small>
       <div class="d-none name"><code>devnotes.Rmd</code></div>
@@ -87,6 +87,48 @@
 <h2 id="developer-notes">Developer Notes<a class="anchor" aria-label="anchor" href="#developer-notes"></a>
 </h2>
 <div class="section level3">
+<h3 id="r-package">R Package<a class="anchor" aria-label="anchor" href="#r-package"></a>
+</h3>
+<p>For developing the pkg locally, you can clone the repo, open
+<code>gpgr.Rproj</code> in RStudio, then work with
+<code>devtools</code>. You’ll also need to install <a href="https://github.com/mikldk/roxytest" class="external-link">roxytest</a> to get the tests
+and documentation working.</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Command</th>
+<th>Comment</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code></td>
+<td>document the pkg (<code>Cmd+Shift+D</code> (needs shortcut
+change))</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all()</a></code></td>
+<td>load the pkg (<code>Cmd+Shift+L</code>)</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code></td>
+<td>check the pkg (<code>Cmd+Shift+E</code>)</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://devtools.r-lib.org/reference/install.html" class="external-link">devtools::install()</a></code></td>
+<td>install the pkg (<code>Cmd+Shift+B</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>R CMD INSTALL --no-multiarch --with-keep.source pcgr.git/pcgrr</code></td>
+<td>install the pkg into the first library of <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>
+(useful when using in conda env)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
 <h3 id="data-version-control">Data Version Control<a class="anchor" aria-label="anchor" href="#data-version-control"></a>
 </h3>
 <p>Instead of committing big data files into <code>git</code>, we can
@@ -95,7 +137,7 @@ of the data updates in <code>git</code> using <a href="https://dvc.org/" class="
 <p>The R package uses the data files when running the code examples and
 tests, and when rendering the vignettes. A simple <code>dvc pull</code>
 will pull the data from the remote storage and allow these processes to
-take place. Hopefully.</p>
+take place.</p>
 <table class="table">
 <colgroup>
 <col width="47%">
@@ -134,20 +176,35 @@ take place. Hopefully.</p>
 <td><code>dvc push</code></td>
 <td>pushes dvc data to remote</td>
 </tr>
+<tr class="even">
+<td><code>dvc pull</code></td>
+<td>pulls dvc data from remote</td>
+</tr>
 </tbody>
 </table>
 </div>
 <div class="section level3">
 <h3 id="github-actions">GitHub Actions<a class="anchor" aria-label="anchor" href="#github-actions"></a>
 </h3>
-</div>
-<div class="section level3">
-<h3 id="r-package">R Package<a class="anchor" aria-label="anchor" href="#r-package"></a>
-</h3>
+<ul>
+<li>For DVC, make sure you install <code>dvc</code> and the
+corresponding remote package e.g. <code>dvc-gdrive</code>,
+<code>dvc-s3</code> etc., or else you’ll get something completely
+puzzling like:</li>
+</ul>
+<pre><code>WARNING: No file hash info found for 'FOO.txt'. It won't be created.
+ERROR: failed to pull data from the cloud - Checkout failed for following targets:
+Is your cache up to date?
+&lt;https://error.dvc.org/missing-files&gt;</code></pre>
 </div>
 <div class="section level3">
 <h3 id="conda-package">Conda Package<a class="anchor" aria-label="anchor" href="#conda-package"></a>
 </h3>
+<p>Make sure your <code>source</code> points to the source
+<code>path</code> instead of a
+<code>git_url</code>/<code>git_tag</code>, else your dev branch will be
+pulling the <code>main</code> branch and you’ll be pulling your
+(remaining) hair out.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
