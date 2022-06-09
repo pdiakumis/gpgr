@@ -35,7 +35,7 @@ jobs:
           auto-activate-base: true
           activate-environment: ""
           mamba-version: "*"
-          channels: "umccr,conda-forge,bioconda"
+          channels: "pdiakumis,umccr,conda-forge,bioconda"
       - name: 🐍 Conda pkg build and upload
         run: |
           mamba install conda-build conda-lock conda-verify anaconda-client boa dvc dvc-gdrive
@@ -110,8 +110,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Docker img build and push
-        uses: 🐳 docker/build-push-action@v2
+      - name: 🐳 Docker img build and push
+        uses: docker/build-push-action@v2
         with:
           tags: ghcr.io/${{ github.repository }}:${{ env.VERSION }}
           file: docker/Dockerfile
