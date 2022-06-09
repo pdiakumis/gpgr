@@ -1,6 +1,7 @@
 name: gpgr
 
 channels:
+  - pdiakumis
   - umccr
   - conda-forge
   - bioconda
