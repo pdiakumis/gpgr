@@ -36,17 +36,17 @@ jobs:
           activate-environment: ""
           mamba-version: "*"
           channels: "umccr,conda-forge,bioconda"
-      - name: 🐍 Conda pkg build and upload
+      - name: Conda pkg build and upload
         run: |
           mamba install conda-build conda-lock conda-verify anaconda-client boa dvc dvc-gdrive
           dvc pull
           ls -l inst/extdata/*
           conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
-      - name: 🔒 Conda lock
+      - name: Conda lock
         run: |
           conda-lock --file ${env_yaml_path}/gpgr.yaml --platform linux-64
           mv conda-lock.yml ${env_lock_path}/conda-lock.yml
-      - name: 💾 Commit lockfile
+      - name: Commit lockfile
         run: |
           git status
           git config --local user.email "actions@github.com"
@@ -56,7 +56,7 @@ jobs:
           git commit -m "${MSG}"
           git push
 
-      - name: 🌐 Website publish
+      - name: Website publish
         run: |
             mamba env create -n pkgdown -f ${env_yaml_path}/pkgdown.yaml
             conda activate pkgdown
@@ -65,14 +65,14 @@ jobs:
             Rscript -e "packageVersion('gpgr')"
             Rscript -e "pkgdown::deploy_to_branch(pkg = '.', commit_message = paste(pkgdown:::construct_commit_message('.'), '- see https://umccr.github.io/gpgr/'), branch = 'gh-pages', new_process = FALSE)"
 
-      - name: 📥 Pull lock commit
+      - name: Pull lock commit
         id: pull_lock_commit
         run: |
             git pull --no-rebase
             git --no-pager log --decorate=short --pretty=oneline -n3
             LATEST_COMMIT_HASH="$(git --no-pager log -1 --format='%H')"
             echo "::set-output name=latest_commit_hash::${LATEST_COMMIT_HASH}"
-      - name: 🔖 Create tag
+      - name: Create tag
         uses: actions/github-script@v5
         env:
           LATEST_COMMIT_HASH: ${{ steps.pull_lock_commit.outputs.latest_commit_hash }}
@@ -95,23 +95,23 @@ jobs:
       - name: Test tag
         run: |
             git --no-pager log --decorate=short --pretty=oneline -n5
-      - name: 🏰 QEMU setup
+      - name: QEMU setup
         uses: docker/setup-qemu-action@v2
-      - name: 🏯 Buildx setup
+      - name: Buildx setup
         uses: docker/setup-buildx-action@v2
           with:
             install: true
             config-inline: |
               [worker.oci]
                 max-parallelism = 2
-      - name: 🐙 GitHub Container Rego login
+      - name: GitHub Container Rego login
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker img build and push
-        uses: 🐳 docker/build-push-action@v2
+        uses: docker/build-push-action@v2
         with:
           tags: ghcr.io/${{ github.repository }}:${{ env.VERSION }}
           file: docker/Dockerfile
