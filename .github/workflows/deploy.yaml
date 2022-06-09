@@ -48,6 +48,9 @@ jobs:
           mv conda-lock.yml ${env_lock_path}/conda-lock.yml
       - name: 💾 Commit lockfile
         run: |
+          # TODO: the version bumping guarantees there will be changes,
+          # but during testing this can be problematic - need to
+          # commit only if changes exist.
           git status
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
