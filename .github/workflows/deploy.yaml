@@ -38,10 +38,10 @@ jobs:
           channels: "pdiakumis,umccr,conda-forge,bioconda"
       - name: 🐍 Conda pkg build and upload
         run: |
-          mamba install conda-build conda-lock conda-verify anaconda-client boa dvc dvc-gdrive
+          mamba install conda-build conda-lock conda-verify anaconda-client boa dvc dvc-gdrive pip
           dvc pull
-          ls -l inst/extdata/*
-          conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
+          #ls -l inst/extdata/*
+          #conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
       - name: 🔒 Conda lock
         run: |
           conda-lock --file ${env_yaml_path}/gpgr.yaml --platform linux-64
