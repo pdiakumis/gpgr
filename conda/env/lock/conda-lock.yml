@@ -3693,10 +3693,12 @@ package:
     r-tidyr: ''
     r-tidyselect: ''
   hash:
-    md5: 15b997ace4a71b89ec5a868bbb9a00cd
+    md5: f41076ecbbe1ffea31ea2d403f2de44a
     sha256: null
   manager: conda
   name: r-gpgr
   optional: false
   platform: linux-64
+  url: https://conda.anaconda.org/pdiakumis/noarch/r-gpgr-1.2.6-r41_0.tar.bz2
+  version: 1.2.6
 version: 1
