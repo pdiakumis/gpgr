@@ -35,7 +35,9 @@ jobs:
           channels: "pdiakumis,umccr,conda-forge,bioconda"
       - name: 🐍 Conda pkg build and upload
         run: |
+          echo "conda info -e:"
           conda info -e
+          echo "--------------"
           conda activate test
           mamba install \
             conda-build \
@@ -53,10 +55,18 @@ jobs:
           pip --version
       - name: 🔒 Conda lock
         run: |
+          echo "conda info -e:"
+          conda info -e
+          echo "--------------"
+          conda activate test
           mamba create -n lockenv -c conda-forge conda-lock
+          echo "conda info -e:"
+          conda info -e
+          echo "--------------"
           conda activate lockenv
           echo "pip --version:"
           pip --version
+          echo "--------------"
           conda-lock --file ${env_yaml_path}/gpgr.yaml --platform linux-64
           mv conda-lock.yml ${env_lock_path}/conda-lock.yml
       - name: 💾 Commit lockfile
@@ -74,12 +84,19 @@ jobs:
 
       - name: 🌐 Website publish
         run: |
-            mamba env create -n pkgdown -f ${env_yaml_path}/pkgdown.yaml
-            conda activate pkgdown
-            printf "gpgr version:\n"
-            gpgr.R --version
-            Rscript -e "packageVersion('gpgr')"
-            Rscript -e "pkgdown::deploy_to_branch(pkg = '.', commit_message = paste(pkgdown:::construct_commit_message('.'), '- see https://umccr.github.io/gpgr/'), branch = 'gh-pages', new_process = FALSE)"
+          echo "conda info -e:"
+          conda info -e
+          echo "--------------"
+          conda activate test
+          mamba env create -n pkgdown -f ${env_yaml_path}/pkgdown.yaml
+          echo "conda info -e:"
+          conda info -e
+          echo "--------------"
+          conda activate pkgdown
+          printf "gpgr version:\n"
+          gpgr.R --version
+          Rscript -e "packageVersion('gpgr')"
+          Rscript -e "pkgdown::deploy_to_branch(pkg = '.', commit_message = paste(pkgdown:::construct_commit_message('.'), '- see https://umccr.github.io/gpgr/'), branch = 'gh-pages', new_process = FALSE)"
 
       - name: 📥 Pull lock commit
         id: pull_lock_commit
