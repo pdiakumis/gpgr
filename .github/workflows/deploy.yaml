@@ -57,12 +57,6 @@ jobs:
           echo "conda info -e:"
           conda info -e
           echo "--------------"
-          echo "conda info:"
-          conda info
-          echo "--------------"
-          echo "CONDA_PREFIX is: ${CONDA_PREFIX}, yay!"
-          echo "CONDA is: ${CONDA}, yay!"
-          echo "--------------"
           conda activate
           mamba create --name lockenv conda-lock pip
           echo "conda info -e:"
