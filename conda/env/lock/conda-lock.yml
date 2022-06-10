@@ -809,17 +809,17 @@ package:
   version: '1.13'
 - category: main
   dependencies:
-    libgcc-ng: '>=9.3.0'
-    ncurses: '>=6.2,<7.0.0a0'
+    libgcc-ng: '>=12'
+    ncurses: '>=6.3,<7.0a0'
   hash:
-    md5: 5788de3c8d7a7d64ac56c784c4ef48e6
-    sha256: 30464670b3c81ac739e8df6b2c3c57b56d1e1408572540dec63bf4b8713163e4
+    md5: db2ebbe2943aae81ed051a6a9af8e0fa
+    sha256: f5f383193bdbe01c41cb0d6f99fec68e820875e842e6e8b392dbe1a9b6c43ed8
   manager: conda
   name: readline
   optional: false
   platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/linux-64/readline-8.1-h46c0cb4_0.tar.bz2
-  version: '8.1'
+  url: https://conda.anaconda.org/conda-forge/linux-64/readline-8.1.2-h0f457ee_0.tar.bz2
+  version: 8.1.2
 - category: main
   dependencies:
     libgcc-ng: '>=9.4.0'
@@ -3693,11 +3693,12 @@ package:
     r-tidyr: ''
     r-tidyselect: ''
   hash:
-    md5: fab1750efff2fa425ecfad769485d40d
+    md5: 15b997ace4a71b89ec5a868bbb9a00cd
     sha256: null
   manager: conda
   name: r-gpgr
   optional: false
   platform: linux-64
+  url: https://conda.anaconda.org/pdiakumis/noarch/r-gpgr-1.2.6-r41_0.tar.bz2
   version: 1.2.6
 version: 1
