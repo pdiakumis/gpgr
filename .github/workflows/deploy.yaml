@@ -40,13 +40,14 @@ jobs:
         run: |
           mamba install \
             conda-build \
-            pip==22.0.4 \
-            conda-lock==1.0.5 \
+            pip \
+            conda-lock \
             conda-verify \
             anaconda-client \
             boa \
             dvc \
             dvc-gdrive
+          pip --version
           dvc pull
           ls -l inst/extdata/*
           conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
