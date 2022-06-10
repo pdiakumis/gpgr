@@ -30,6 +30,7 @@ jobs:
       - name: Miniconda setup
         uses: conda-incubator/setup-miniconda@v2
         with:
+          activate-environment: env1
           auto-update-conda: true
           mamba-version: "*"
           channels: "pdiakumis,umccr,conda-forge,bioconda"
@@ -38,28 +39,31 @@ jobs:
           echo "conda info -e:"
           conda info -e
           echo "--------------"
-          conda activate test
-          mamba install \
+          conda activate
+          mamba create --name cbuild \
             conda-build \
             conda-verify \
             anaconda-client \
             boa \
             dvc \
             dvc-gdrive
-          echo "pip --version:"
-          pip --version
-          dvc pull
-          ls -l inst/extdata/*
-          conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
-          echo "pip --version:"
-          pip --version
+          #dvc pull
+          #ls -l inst/extdata/*
+          conda activate cbuild
+          #conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
       - name: 🔒 Conda lock
         run: |
           echo "conda info -e:"
           conda info -e
           echo "--------------"
-          conda activate test
-          mamba create -n lockenv -c conda-forge conda-lock
+          echo "conda info:"
+          conda info
+          echo "--------------"
+          echo "CONDA_PREFIX is: ${CONDA_PREFIX}, yay!"
+          echo "CONDA is: ${CONDA}, yay!"
+          echo "--------------"
+          conda activate
+          mamba create --name lockenv conda-lock
           echo "conda info -e:"
           conda info -e
           echo "--------------"
@@ -87,7 +91,7 @@ jobs:
           echo "conda info -e:"
           conda info -e
           echo "--------------"
-          conda activate test
+          conda activate
           mamba env create -n pkgdown -f ${env_yaml_path}/pkgdown.yaml
           echo "conda info -e:"
           conda info -e
