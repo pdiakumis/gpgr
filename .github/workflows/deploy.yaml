@@ -36,7 +36,7 @@ jobs:
       - name: 🐍 Conda pkg build and upload
         run: |
           conda info -e
-          mamba activate test
+          conda activate test
           mamba install \
             conda-build \
             conda-verify \
@@ -50,7 +50,7 @@ jobs:
           conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
       - name: 🔒 Conda lock
         run: |
-          mamba activate test
+          conda activate test
           mamba install pip conda-lock # install these here since pips get mixed up above
           conda-lock --file ${env_yaml_path}/gpgr.yaml --platform linux-64
           mv conda-lock.yml ${env_lock_path}/conda-lock.yml
@@ -70,7 +70,7 @@ jobs:
       - name: 🌐 Website publish
         run: |
             mamba env create -n pkgdown -f ${env_yaml_path}/pkgdown.yaml
-            mamba activate pkgdown
+            conda activate pkgdown
             printf "gpgr version:\n"
             gpgr.R --version
             Rscript -e "packageVersion('gpgr')"
