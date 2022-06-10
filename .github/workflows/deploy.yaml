@@ -44,14 +44,19 @@ jobs:
             boa \
             dvc \
             dvc-gdrive
+          echo "pip --version:"
           pip --version
           dvc pull
           ls -l inst/extdata/*
           conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
+          echo "pip --version:"
+          pip --version
       - name: 🔒 Conda lock
         run: |
-          conda activate test
-          mamba install pip conda-lock # install these here since pips get mixed up above
+          mamba create -n lockenv -c conda-forge conda-lock
+          conda activate lockenv
+          echo "pip --version:"
+          pip --version
           conda-lock --file ${env_yaml_path}/gpgr.yaml --platform linux-64
           mv conda-lock.yml ${env_lock_path}/conda-lock.yml
       - name: 💾 Commit lockfile
