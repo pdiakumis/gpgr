@@ -30,18 +30,15 @@ jobs:
       - name: Miniconda setup
         uses: conda-incubator/setup-miniconda@v2
         with:
-          # Do everything inside the base env
           auto-update-conda: true
-          auto-activate-base: true
-          activate-environment: ""
           mamba-version: "*"
           channels: "pdiakumis,umccr,conda-forge,bioconda"
       - name: 🐍 Conda pkg build and upload
         run: |
+          conda info -e
+          mamba activate test
           mamba install \
             conda-build \
-            pip \
-            conda-lock \
             conda-verify \
             anaconda-client \
             boa \
@@ -53,6 +50,8 @@ jobs:
           conda mambabuild --R 4.1 ${recipe_path} --token ${atoken}
       - name: 🔒 Conda lock
         run: |
+          mamba activate test
+          mamba install pip conda-lock # install these here since pips get mixed up above
           conda-lock --file ${env_yaml_path}/gpgr.yaml --platform linux-64
           mv conda-lock.yml ${env_lock_path}/conda-lock.yml
       - name: 💾 Commit lockfile
@@ -71,7 +70,7 @@ jobs:
       - name: 🌐 Website publish
         run: |
             mamba env create -n pkgdown -f ${env_yaml_path}/pkgdown.yaml
-            conda activate pkgdown
+            mamba activate pkgdown
             printf "gpgr version:\n"
             gpgr.R --version
             Rscript -e "packageVersion('gpgr')"
